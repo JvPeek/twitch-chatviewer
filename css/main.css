@@ -1,22 +1,24 @@
-html {
-
-}
 body {
   background: #222;
   color: white;
-  font-size: 40px;
+  font-size: 2.5rem;
   font-family: "Comic Sans MS";
 }
 body.attention {
   background: #900;
   animation: blink 1s linear infinite;
 }
-#chat > div  {
-  width: calc(100%-20px);
-  border-left: 10px solid white;
-  margin: 5px;
+.message-container  {
+  width: calc(100% - 1.25rem);
+  border-left: 0.625rem solid white;
+  margin: 0.33rem;
   background: rgba(0,0,0,0.5);
-  border-radius: 5px;
+  border-radius: 0.33rem;
+  padding-left: 0.75rem;
+}
+
+.message-container .username {
+  display: inline-block;
 }
 
 @keyframes blink {
