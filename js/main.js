@@ -25,6 +25,25 @@ if (urlParams.has('name')) name = urlParams.get('name');
 if (urlParams.has('config')) configName = urlParams.get('config');
 
 
+let botList = [];
+
+function loadBotList() {
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', "https://jvpeek.de/bots.json", true);
+  xhr.responseType = 'json';
+  xhr.onload = function() {
+    let status = xhr.status;
+    if (status === 200) {
+      //console.log(xhr.response)
+      if (Array.isArray(xhr.response)) {
+        botList = xhr.response.map((obj) => obj["name"].toLowerCase() ) //get names from botlist in lower case form
+        //console.log(botList)
+      }
+    }
+  };
+  xhr.send();
+}
+
 const handleMessage = (msg) => {
     if (msg.event != "PRIVMSG") return;
 
@@ -37,6 +56,9 @@ const handleMessage = (msg) => {
 function message(msg) {
 
   if (msg.message === undefined) {
+    return;
+  }
+  if (botList.includes(msg.username.toLowerCase())) {
     return;
   }
   if (msg.message.startsWith("!attention")) {
@@ -117,4 +139,5 @@ const run = async () => {
     return chat;
 };
 
+loadBotList();
 const chatobj = run();
