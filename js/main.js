@@ -58,13 +58,13 @@ function message(msg) {
   if (msg.message === undefined) {
     return;
   }
+  if (botList.includes(msg.username.toLowerCase())) {
+    return;
+  }
   if (msg.message.startsWith("!attention")) {
     attentionMode();
   }
   if (msg.message.startsWith("!")) {
-    return;
-  }
-  if (botList.includes(msg.username.toLowerCase())) {
     return;
   }
   let chatObject = document.getElementById("chat");
