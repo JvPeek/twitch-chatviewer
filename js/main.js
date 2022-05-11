@@ -4,15 +4,11 @@ let username = undefined;
 let channel = "jvpeek";
 const admins = ["jvpeek"];
 
+/*
+  Filter für bots
+  markierung für channel points
 
-
-
-
-
-
-
-
-
+*/
 
 let configName = "doggo";
 let gotchi = {};
@@ -45,18 +41,25 @@ function message(msg) {
   }
   if (msg.message.startsWith("!attention")) {
     attentionMode();
-
   }
   if (msg.message.startsWith("!")) {
     return;
   }
   let chatObject = document.getElementById("chat");
   let newRow = document.createElement("div");
-  newRow.innerText = msg.tags.displayName + ": " + msg.message;
+  let username = document.createElement("span");
+  username.appendChild(document.createTextNode(msg.tags.displayName));
+  let text = document.createTextNode(": " + msg.message);
+  //newRow.innerText = msg.tags.displayName + ": " + msg.message;
   if (msg.tags.color !== undefined) {
     newRow.style.borderColor = msg.tags.color;
+    username.style.color = msg.tags.color;
 
   }
+  newRow.appendChild(username);
+  newRow.appendChild(text);
+
+
   //chatObject.innerHTML += msg.username + ": " + msg.message + "<br />"; // DUMME IDEE
   //eval(msg.message); GANZ DUMME IDEE
   chatObject.appendChild(newRow);
@@ -70,12 +73,18 @@ function message(msg) {
   cleanMessages();
 }
 function attentionMode() {
-  document.body.classList = "attention red";
-  window.setTimeout(document.body.classList = "", 10000);
+  document.querySelector("body").classList.add("attention");
+  window.setTimeout(removeAttentionMode, 10000);
+}
+function removeAttentionMode() {
+  document.querySelector("body").className = "";
 }
 function cleanMessages() {
-  let chatObject = document.getElementById("chat");
-  console.log(chatObject.children.length);
+  const chatObject = document.getElementById("chat");
+  console.log(chatObject.children);
+  while (chatObject.children.length > 50) {
+    chatObject.children[0].remove();
+  }
 }
 function modMessage(msg) {
   if (msg.message == "!reload") {
